@@ -1,25 +1,39 @@
-import Link from 'next/link'
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { IoBugSharp } from "react-icons/io5";
+import classnames from "classnames";
 
 const NavBar = () => {
-    const links = [
-        { name: 'Dashboard', path: '/dashboard' },
-        { name: 'Issue', path: '/issue' },
-    ]
-  return (
-    <nav className='flex space-x-6 border-b border-gray-300 mb-5 h-14 items-center px-5'>
-        <Link href='/'><IoBugSharp /></Link>
-        <ul className='flex space-x-6'>
-            {links.map((link) => (
-                <li key={link.name} className='text-zinc-400 hover:text-zinc-800 transform-color font-medium'>
-                    <Link href={link.path}>{link.name}</Link>
-                </li>
-            ))}
-            {/* <li> <Link href="/dashboard"> Dashboard</Link></li>
-            <li><Link href="/issue">Issue</Link></li> */}
-        </ul>
-    </nav>
-  )
-}
+  const currentpath = usePathname();
 
-export default NavBar
+  const links = [
+    { name: "Dashboard", path: "/" },
+    { name: "Issue", path: "/issues" },
+  ];
+
+  return (
+    <nav className="flex space-x-6 border-b border-gray-300 mb-5 h-14 items-center px-5">
+      <Link href="/">
+        <IoBugSharp size={22} />
+      </Link>
+      <ul className="flex space-x-6">
+        {links.map((link) => (
+          <li
+            key={link.name}
+            className={classnames({
+              "text-zinc-900": currentpath === link.path,
+              "text-zinc-500": currentpath !== link.path,
+              "hover:text-zinc-800 transition-colors font-medium": true,
+            })}
+          >
+            <Link href={link.path}>{link.name}</Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+export default NavBar;
